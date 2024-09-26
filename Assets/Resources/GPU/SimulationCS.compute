@@ -1,0 +1,73 @@
+#pragma kernel CSInit
+#pragma kernel CSStep
+
+Texture2D<float> Source;
+
+RWTexture2D<float> Target;
+
+StructuredBuffer<int> Rule;
+
+int Resolution;
+
+float Hash21(float2 p)
+{
+    int2 i = (int2) p;
+    p = frac(p * float2(0.9345, 8.0532));
+    p += dot(p, p + float2(126.01, 9.41));
+    return frac(p.x * p.y + (i.x ^ i.y));
+}
+
+uint GetState(uint bitPos)
+{
+    uint arrayIndex = bitPos / (uint)32;
+    uint bitIndex = bitPos % (uint)32;
+        
+    // Retrieve the bit using a bitwise AND and shift operation
+    uint bit = (Rule[arrayIndex] >> bitIndex) & 1;
+        
+    return bit;
+}
+
+uint GetBitPos (uint2 id)
+{
+    // Neighbor offsets in the order.
+    const int2 offsets[9] =
+    {
+        int2(-1, -1), int2(0, -1), int2(1, -1), // Top row
+        int2(-1, 0), int2(0, 0), int2(1, 0), // Middle row
+        int2(-1, 1), int2(0, 1), int2(1, 1) // Bottom row
+    };
+
+    uint bitPos = 0;
+
+    // Loop through each neighbor and construct the bitPos
+    for (uint i = 0; i < 9; i++) {
+        // Calculate wrapped coordinates
+        uint2 neighb = uint2(
+            (id.x + offsets[i].x + Resolution) % Resolution, 
+            (id.y + offsets[i].y + Resolution) % Resolution
+        );   
+        // Retrieve the state of the neighbor from the texture
+        uint neighbState = (uint)(Source[neighb]);
+        // Add the neighbor's state to the bitPos
+        bitPos |= (neighbState << i);
+    }
+    
+    return bitPos;
+}
+
+[numthreads(8, 8, 1)]
+void CSInit(uint3 id : SV_DispatchThreadID)
+{
+    float hash = Hash21((float2) (id.xy));
+    Target[id.xy] = (uint)step(hash, 0.5);
+}
+
+[numthreads(16, 16, 1)]
+void CSStep(uint3 id : SV_DispatchThreadID)
+{
+    uint nId = GetBitPos(id.xy);
+    uint val = GetState(nId);
+    
+    Target[id.xy] = val;
+}
