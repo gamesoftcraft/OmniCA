@@ -108,7 +108,6 @@ public class CAManager : MonoBehaviour
     {
         Initialize();
         StartCoroutine(UpdateDelayed());
-        
     }
 
     private void Initialize ()
@@ -127,6 +126,7 @@ public class CAManager : MonoBehaviour
 
         _fieldInitializer.Apply(_simulatuionField);
         _ruleChain.Index = 0;
+        _ruleChain.StepNum = 0;
     }
 
     private void Step ()
