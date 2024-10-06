@@ -24,7 +24,7 @@ public class RuleDataPropertyDrawer : PropertyDrawer
         }
         GUILayout.BeginHorizontal();
         int newFileIndex = EditorGUILayout.Popup(fileIdxProp.intValue, _allFileNames);
-        amountProp.intValue = EditorGUILayout.DelayedIntField(amountProp.intValue);
+        amountProp.intValue = EditorGUILayout.IntField(amountProp.intValue);
         GUILayout.EndHorizontal();
 
         if (newFileIndex != fileIdxProp.intValue) {

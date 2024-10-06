@@ -251,7 +251,7 @@ public class RuleEditorWindow : EditorWindow
             new RuleInfo(GetRuleArray())
             );
         File.WriteAllText(path, json);
-        Debug.Log("Rule saved to " + _filePath);
+        Debug.Log("Rule saved to " + path);
     }
 
     private void LoadRule ()

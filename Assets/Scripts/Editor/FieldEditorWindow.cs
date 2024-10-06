@@ -33,11 +33,6 @@ public class FieldEditorWindow : EditorWindow
         ResetTexture();
     }
 
-    private void OnDestroy ()
-    {
-        Save();
-    }
-
     private void OnGUI () 
     { 
         GUILayout.Label(_texture, GUILayout.Width(Width), GUILayout.Height(Width));
@@ -59,7 +54,7 @@ public class FieldEditorWindow : EditorWindow
         }
 
         GUILayout.BeginHorizontal();
-        string newFileName = GUILayout.TextField(_fileName, _skin.textField);
+        _fileName = GUILayout.TextField(_fileName, _skin.textField);
         if (GUILayout.Button("Save", _skin.button)) {
             Save();
         }
@@ -87,5 +82,7 @@ public class FieldEditorWindow : EditorWindow
         string filePath = Path.Combine(_folderPath, _fileName + ".asset");
         AssetDatabase.CreateAsset(_texture, filePath);
         Target.SetTexture(_texture);
+
+        Debug.Log("Field saved to " + filePath);
     }
 }

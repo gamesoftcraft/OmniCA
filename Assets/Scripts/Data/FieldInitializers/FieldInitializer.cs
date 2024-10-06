@@ -16,6 +16,12 @@ public abstract class FieldInitializer : ScriptableObject
         tex.SetPixelData(pixData, 0, 0);
         tex.Apply();
         Graphics.Blit(tex, target);
-        Destroy(tex);
+        
+        if (Application.isPlaying) {
+            Destroy(tex);
+        }
+        else {
+            DestroyImmediate(tex);
+        }
     }
 }

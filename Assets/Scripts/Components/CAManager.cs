@@ -126,6 +126,7 @@ public class CAManager : MonoBehaviour
         }
 
         _fieldInitializer.Apply(_simulatuionField);
+        _ruleChain.Index = 0;
     }
 
     private void Step ()
@@ -147,15 +148,17 @@ public class CAManager : MonoBehaviour
         {
             if (_ruleChain.Queue == RuleChain.Sequence.Random) {
                 _ruleChain.Index = UnityEngine.Random.Range(0, _ruleChain.Count);
+                _ruleChain.StepNum = 0;
             }
             else {
                 _ruleChain.Index++; 
-                if (_ruleChain.Index >= _ruleChain.Count - 1) {
+                if (_ruleChain.Index >= _ruleChain.Count) {
                     if (_ruleChain.Queue == RuleChain.Sequence.Order) {
                         _ruleChain.Index = _ruleChain.Count - 1;
                     }
                     if (_ruleChain.Queue == RuleChain.Sequence.Repeat) {
                         _ruleChain.Index = 0;
+                        _ruleChain.StepNum = 0;
                     }
                 }
             }
