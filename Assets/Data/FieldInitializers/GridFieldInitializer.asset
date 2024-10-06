@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GridFieldInitializer
   m_EditorClassIdentifier: 
   _area: 0.061
-  _dencity: 5
+  _dencity: 2
