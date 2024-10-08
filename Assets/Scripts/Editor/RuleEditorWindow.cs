@@ -32,11 +32,14 @@ public class RuleEditorWindow : EditorWindow
 
     public void SetReady () => _isReady = true;
 
-    private void OnEnable ()
+    public void SetEditorPrefs (int targetObjId, string propPath)
     {
-        Initialize();
+        EditorPrefs.SetInt(PrefsKeyInstanceID, targetObjId);
+        EditorPrefs.SetString(PrefsKeyPropertyPath, propPath);
     }
 
+    private void OnEnable () => Initialize();
+    
     private async void Initialize ()
     {
         while (!_isReady) await Task.Yield();
@@ -250,12 +253,6 @@ public class RuleEditorWindow : EditorWindow
         SetBitSerializable(_searchMask, GUILayout.Toggle(GetBit(_searchMask), ""));
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
-    }
-
-    public void SetEditorPrefs (int targetObjId, string propPath)
-    {
-        EditorPrefs.SetInt(PrefsKeyInstanceID, targetObjId);
-        EditorPrefs.SetString(PrefsKeyPropertyPath, propPath);
     }
 
     private void SaveRule (string path)
