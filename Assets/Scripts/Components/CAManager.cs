@@ -140,8 +140,8 @@ public class CAManager : MonoBehaviour
             if (_mustSkip) return;
         }
         
-        var ruleBuff = new ComputeBuffer(16, 32);
-        var sourceTex = CopyTargetRT();
+        var ruleBuff = new ComputeBuffer(16, sizeof(int));
+        var sourceTex = new RenderTexture(_simulatuionField);
         int[] rule;
 
         void UpdateRuleIndex ()
@@ -186,6 +186,7 @@ public class CAManager : MonoBehaviour
         }
 
         ruleBuff.SetData(rule);
+        Graphics.Blit(_simulatuionField, sourceTex);
 
         _program.SetTexture(_cSStepId, "Source", sourceTex);
         _program.SetTexture(_cSStepId, _cSTargetId, _simulatuionField);
@@ -194,6 +195,8 @@ public class CAManager : MonoBehaviour
         _program.Dispatch(_cSStepId, _simulatuionField.width / 16, _simulatuionField.height / 16, 1);
         
         ruleBuff.Dispose();
+        RenderTexture.active = null;
+        sourceTex.Release();
     }
 
     private IEnumerator UpdateDelayed ()
@@ -208,29 +211,6 @@ public class CAManager : MonoBehaviour
         }
         Step();
         StartCoroutine(UpdateDelayed());
-    }
-
-    private Color[] TexToArray ()
-    {
-        var copy = CopyTargetRT();
-        var result = new Color[_simulatuionField.width * _simulatuionField.height];
-        var pixels = copy.GetPixels();
-        for (int i = 0; i < pixels.Length; i++) {
-            result[i] = pixels[i];
-        }
-
-        return result;
-    }
-
-    private Texture2D CopyTargetRT ()
-    {
-        var tex = new Texture2D(_simulatuionField.width, _simulatuionField.height, TextureFormat.RFloat, false);
-        RenderTexture.active = _simulatuionField;
-        tex.ReadPixels(new Rect(0, 0, _simulatuionField.width, _simulatuionField.height), 0, 0);
-        tex.Apply();
-        RenderTexture.active = null;
-
-        return tex;
     }
 
     private int GetNextPow2 (int v)

@@ -240,16 +240,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _program: {fileID: 7200000, guid: 32b1d713f72cd164c81c9b4f34b0131d, type: 3}
   _simulatuionField: {fileID: 8400000, guid: 7780fd68e0ab31349a80cec5fd739b53, type: 2}
-  _fieldInitializer: {fileID: 11400000, guid: e204d0d554600a74797d03d7199c01f0, type: 2}
+  _fieldInitializer: {fileID: 11400000, guid: c90b695e660c43a4b99f1079aaf9b4f6, type: 2}
   _resolution: 256
-  _rule: 8068e87e68167e1768167e171601170168167e1716011701160117010100010068167e1716011701160117010100010016011701010001000100010000000000
+  _rule: de039609110041000103010200000000010001000000000001000001000000000100010011001000000000000000000001000000000001000100010000800080
   _ruleChain:
     <Queue>k__BackingField: 0
-    <Rules>k__BackingField:
-    - <Name>k__BackingField: ConvLife
-      <Steps>k__BackingField: 0
-      <Rule>k__BackingField: 8068e87e48167e1768167e171601110168167e1716011701160117010100010068167e1716011701160117010100010016011701010001000100010000000000
-      _fileIndex: 3
+    <Rules>k__BackingField: []
   _openRuleEditor: 0
   _delay: 0.1
   _pause: 0
@@ -580,7 +576,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

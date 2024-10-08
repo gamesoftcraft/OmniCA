@@ -7,7 +7,7 @@ RWTexture2D<float> Target;
 
 StructuredBuffer<int> Rule;
 
-int Resolution;
+uint Resolution;
 
 float Hash21(float2 p)
 {
@@ -17,12 +17,10 @@ float Hash21(float2 p)
     return frac(p.x * p.y + (i.x ^ i.y));
 }
 
-uint GetState(uint bitPos)
+uint GetNextState(uint bitPos)
 {
     uint arrayIndex = bitPos / (uint)32;
     uint bitIndex = bitPos % (uint)32;
-        
-    // Retrieve the bit using a bitwise AND and shift operation
     uint bit = (Rule[arrayIndex] >> bitIndex) & 1;
         
     return bit;
@@ -41,6 +39,7 @@ uint GetBitPos (uint2 id)
     uint bitPos = 0;
 
     // Loop through each neighbor and construct the bitPos
+    [unroll]
     for (uint i = 0; i < 9; i++) {
         // Calculate wrapped coordinates
         uint2 neighb = uint2(
@@ -50,7 +49,7 @@ uint GetBitPos (uint2 id)
         // Retrieve the state of the neighbor from the texture
         uint neighbState = (uint)(Source[neighb]);
         // Add the neighbor's state to the bitPos
-        bitPos |= (neighbState << i);
+        bitPos |= neighbState << i;
     }
     
     return bitPos;
@@ -59,7 +58,7 @@ uint GetBitPos (uint2 id)
 [numthreads(8, 8, 1)]
 void CSInit(uint3 id : SV_DispatchThreadID)
 {
-    float hash = Hash21((float2) (id.xy));
+    float hash = Hash21((float2)(id.xy));
     Target[id.xy] = (uint)step(hash, 0.5);
 }
 
@@ -67,7 +66,7 @@ void CSInit(uint3 id : SV_DispatchThreadID)
 void CSStep(uint3 id : SV_DispatchThreadID)
 {
     uint nId = GetBitPos(id.xy);
-    uint val = GetState(nId);
+    uint val = GetNextState(nId);
     
     Target[id.xy] = val;
 }
