@@ -3,6 +3,7 @@ using UnityEditor;
 using System.IO;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 public class RuleEditorWindow : EditorWindow
 {
@@ -27,12 +28,22 @@ public class RuleEditorWindow : EditorWindow
     int _fileIndex;
     int _ruleSetterIndex;
     int _searchMask;
+    bool _isReady;
+
+    public void SetReady () => _isReady = true;
 
     private void OnEnable ()
     {
+        Initialize();
+    }
+
+    private async void Initialize ()
+    {
+        while (!_isReady) await Task.Yield();
+
         _skin = Resources.Load<GUISkin>("GUISkins/RuleWindowGUISkin");
         _labelHeaderStyles = _skin.FindStyle("label header");
-        
+
         InitDisplay();
 
         if (_ruleProperty == null) {
@@ -82,6 +93,8 @@ public class RuleEditorWindow : EditorWindow
 
     private void OnGUI ()
     {
+        if (_ruleProperty == null) return;
+
         void LeftSection ()
         {
             /// Left section

@@ -1,11 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using JetBrains.Annotations;
 using UnityEditor;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
-
 
 [CustomPropertyDrawer(typeof(OpenRuleEditorButtonAttribute))]
 public class OpenRuleEditorWindowButtonPropertyDrawer : PropertyDrawer
@@ -18,6 +12,7 @@ public class OpenRuleEditorWindowButtonPropertyDrawer : PropertyDrawer
             var ruleProp = target.FindProperty("_rule");
 
             window.SetEditorPrefs(target.targetObject.GetInstanceID(), ruleProp.propertyPath);
+            window.SetReady();
         }
     }
 }
