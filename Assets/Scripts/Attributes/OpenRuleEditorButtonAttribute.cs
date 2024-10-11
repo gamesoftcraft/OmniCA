@@ -1,5 +1,6 @@
 using UnityEngine;
 
-public class OpenRuleEditorButtonAttribute : PropertyAttribute
+namespace GameSoftCraft
 {
+    public class OpenRuleEditorButtonAttribute : PropertyAttribute { }
 }

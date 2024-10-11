@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class OpenFieldEditorButtonAttribute : PropertyAttribute
+namespace GameSoftCraft
 {
+    public class OpenFieldEditorButtonAttribute : PropertyAttribute { }
 }

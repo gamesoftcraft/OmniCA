@@ -1,10 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = nameof(FieldInitializer) + "/Center", fileName = "Center" + nameof(FieldInitializer))]
-public class CenterFieldInitializer : FieldInitializer
+namespace GameSoftCraft
 {
-    protected override void RefreshPixels (float[] pixData, int width)
+    [CreateAssetMenu(menuName = nameof(FieldInitializer) + "/Center", fileName = "Center" + nameof(FieldInitializer))]
+    public class CenterFieldInitializer : FieldInitializer
     {
-        pixData[pixData.Length - width * (width / 2) + width / 2] = 1f;
+        protected override void RefreshPixels (float[] pixData, int width)
+        {
+            pixData[pixData.Length - width * (width / 2) + width / 2] = 1f;
+        }
     }
 }

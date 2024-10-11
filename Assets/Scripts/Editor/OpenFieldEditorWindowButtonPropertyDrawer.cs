@@ -1,19 +1,21 @@
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(OpenFieldEditorButtonAttribute))]
-public class OpenFieldEditorWindowButtonPropertyDrawer : PropertyDrawer
+namespace GameSoftCraft
 {
-    public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(OpenFieldEditorButtonAttribute))]
+    public class OpenFieldEditorWindowButtonPropertyDrawer : PropertyDrawer
     {
-        if (GUI.Button(position, "Open Field Editor")) {
-            var window = EditorWindow.GetWindow<FieldEditorWindow>("Field Editor");
-            var target = property.serializedObject;
-            var widthProp = target.FindProperty("_width");
-            window.Target = target.targetObject as PaintFieldInitializer;
-            window.Width = widthProp.intValue;
-            window.InitTexture();
+        public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+        {
+            if (GUI.Button(position, "Open Field Editor")) {
+                var window = EditorWindow.GetWindow<FieldEditorWindow>("Field Editor");
+                var target = property.serializedObject;
+                var widthProp = target.FindProperty("_width");
+                window.Target = target.targetObject as PaintFieldInitializer;
+                window.Width = widthProp.intValue;
+                window.InitTexture();
+            }
         }
     }
 }
