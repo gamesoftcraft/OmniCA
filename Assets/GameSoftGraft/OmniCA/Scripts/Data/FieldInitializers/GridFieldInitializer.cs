@@ -10,7 +10,7 @@ namespace GameSoftCraft
         float _area;
 
         [SerializeField, Min(2)]
-        int _dencity = 2;
+        int _density = 2;
 
         protected override void RefreshPixels (float[] pixData, int width)
         {
@@ -22,8 +22,8 @@ namespace GameSoftCraft
                 int y = i / width;
                 int asdf = (int)(width / 2 * area);
                 if (x < asdf || x > width - asdf) continue;
-                int hVal = y % _dencity > 0 ? 0 : 1;
-                int vVal = x % _dencity > 0 ? 0 : 1;
+                int hVal = y % _density > 0 ? 0 : 1;
+                int vVal = x % _density > 0 ? 0 : 1;
                 int val = hVal * vVal;
                 pixData[i] = val;
             }
