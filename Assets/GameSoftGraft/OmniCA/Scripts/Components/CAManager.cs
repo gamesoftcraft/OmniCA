@@ -188,6 +188,8 @@ namespace GameSoftCraft
             }
 
             ruleBuff.SetData(rule);
+
+            /// Copy texture for the next step
             Graphics.Blit(_simulatuionField, sourceTex);
 
             _program.SetTexture(_cSStepId, "Source", sourceTex);
